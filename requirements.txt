@@ -1,5 +1,6 @@
 tensorboard
 tensorboardX
 torchlars==0.1.2
-apex diffdist==0.1
+apex
+diffdist==0.1
 git+https://github.com/ildoonet/pytorch-gradual-warmup-lr.git
