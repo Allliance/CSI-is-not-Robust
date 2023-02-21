@@ -23,6 +23,11 @@ def get_simclr_augmentation(P, image_size):
             color_jitter,
             color_gray,
         )
+    elif image_size[2] == 1:
+        transform = nn.Sequential(
+            # color_gray,
+            resize_crop,
+        )
     else:
         transform = nn.Sequential(
             color_jitter,
