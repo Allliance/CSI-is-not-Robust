@@ -4,13 +4,24 @@ model.eval()
 
 
 P.in_attack = False
-P.out_attack = True
+P.out_attack = False
 P.desired_attack = "PGD"
 P.eps = 0.03137254901960784
 P.steps = 10
 P.PGD_constant = 2.5
 P.alpha = (P.PGD_constant * P.eps)  / P.steps
 
+print("Attack targets: ")
+if P.in_attack:
+    print("- Normal")
+if P.out_attack:
+    print("- Anomaly")
+
+if P.out_attack or P.in_attack:
+    print("Desired Attack:", P.desired_attack)
+    print("Epsilon:", P.eps)
+    if P.desired_attack == 'PGD':
+        print("Steps:", P.steps)
 
 if P.mode == 'test_acc':
     from evals import test_classifier
