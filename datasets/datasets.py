@@ -4,13 +4,14 @@ import numpy as np
 import torch
 from torch.utils.data.dataset import Subset
 from torchvision import datasets, transforms
-
+from datasets.mvtec import MVTecDataset
 from utils.utils import set_random_seed
 
 DATA_PATH = '~/data/'
 IMAGENET_PATH = '~/data/ImageNet'
 
 
+MNIST_SUPERCLASS = list(range(10))
 CIFAR10_SUPERCLASS = list(range(10))  # one class
 IMAGENET_SUPERCLASS = list(range(30))  # one class
 
@@ -147,8 +148,43 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
         test_set = datasets.CIFAR100(DATA_PATH, train=False, download=download, transform=test_transform)
 
     elif dataset == 'svhn':
+        image_size = (32, 32, 3)
+        n_classes = 10
         assert test_only and image_size is not None
+        train_set = datasets.SVHN(DATA_PATH, split='train', download=download, transform=test_transform)
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
+
+    elif dataset == 'mnist':
+        image_size = (28, 28, 1)
+        n_classes = 10
+        assert test_only and image_size is not None
+        train_set = datasets.MNIST(DATA_PATH, train=True, download=download, transform=train_transform)
+        test_set = datasets.MNIST(DATA_PATH, train=False, download=download, transform=test_transform)
+
+    
+    elif dataset == 'fmnist':
+        image_size = (28, 28, 1)
+        n_classes = 10
+        assert test_only and image_size is not None
+        train_set = datasets.FashionMNIST(DATA_PATH, train=True, download=download, transform=train_transform)
+        test_set = datasets.FashionMNIST(DATA_PATH, train=False, download=download, transform=test_transform)
+
+
+    elif dataset == 'mvtec-ad':
+        image_size = (224, 224, 3)
+        n_classes = 10
+        assert test_only and image_size is not None
+        train_set = MVTecDataset(
+            root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
+            category=P.one_class_idx,
+            is_train=True,
+        )
+        test_set = MVTecDataset(
+            root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
+            category=P.one_class_idx,
+            is_train=False,
+        )
+
 
     elif dataset == 'lsun_resize':
         assert test_only and image_size is not None
