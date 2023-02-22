@@ -10,6 +10,8 @@ def parse_args(default=False):
                         choices=['cifar10', 'cifar100', 'imagenet', 'mnist', 'fmnist', 'svhn', 'mvtec-ad'], type=str)
     parser.add_argument('--one_class_idx', help='None: multi-class, Not None: one-class',
                         default=None, type=int)
+    parser.add_argument('--target_category', help='a number from 0 to 14 that specifies the target category when dataset in mvtec-ad',
+                        default=None, type=int)
     parser.add_argument('--model', help='Model',
                         choices=['resnet18', 'resnet18_imagenet'], type=str)
     parser.add_argument('--mode', help='Training mode',
