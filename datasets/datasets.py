@@ -7,8 +7,8 @@ from torchvision import datasets, transforms
 from datasets.mvtec import MVTecDataset
 from utils.utils import set_random_seed
 
-DATA_PATH = '~/data/'
-IMAGENET_PATH = '~/data/ImageNet'
+DATA_PATH = os.path.join(os.path.expanduser('~'), 'data')
+IMAGENET_PATH = os.path.join(os.path.expanduser('~'), 'data', "ImageNet")
 
 
 MNIST_SUPERCLASS = list(range(10))
@@ -83,9 +83,7 @@ def get_transform(image_size=None):
             transforms.ToTensor(),
         ])
     else:  # use default image size
-        train_transform = transforms.Compose([
-            transforms.ToTensor(),
-        ])
+        train_transform = transforms.ToTensor()
         test_transform = transforms.ToTensor()
 
     return train_transform, test_transform
@@ -106,6 +104,29 @@ def get_subset_with_len(dataset, length, shuffle=False):
 
     return subset
 
+
+def get_transform_1_channel(can_flip=True):
+    if can_flip:
+      train_transform = transforms.Compose([
+            transforms.Resize((32, 32)),
+            transforms.Grayscale(3),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor()
+      ])
+    else:
+      train_transform = transforms.Compose([
+            transforms.Resize((32, 32)),
+            transforms.Grayscale(3),
+            transforms.ToTensor()
+      ])
+    
+    test_transform = transforms.Compose([
+        transforms.Resize((32, 32)),
+        transforms.Grayscale(3),
+        transforms.ToTensor()]
+    )
+    
+    return train_transform, test_transform
 
 def get_transform_imagenet():
 
@@ -135,7 +156,9 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
                                                                                  P.resize_factor, P.resize_fix)
         else:
             train_transform, test_transform = get_transform_imagenet()
-    else:
+    elif dataset in ['mnist', 'fmnist']:
+        train_transform, test_transform = get_transform_1_channel(can_flip=(dataset=='fmnnist'))
+    else: 
         train_transform, test_transform = get_transform(image_size=image_size)
 
     if dataset == 'cifar10':
@@ -175,12 +198,11 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
         n_classes = 10
         train_set = MVTecDataset(
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
-            category=P.one_class_idx,
             is_train=True,
         )
+        print(len(train_set))
         test_set = MVTecDataset(
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
-            category=P.one_class_idx,
             is_train=False,
         )
 
