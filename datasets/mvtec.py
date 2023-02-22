@@ -25,7 +25,7 @@ mvtec_categories = [
 
 class MVTecDataset(torch.utils.data.Dataset):
   
-    def __init__(self, root, input_size=224, is_train=True):
+    def __init__(self, root,  category, input_size=224, is_train=True):
         self.image_transform = transforms.Compose(
             [
                 transforms.Resize(input_size),
@@ -33,14 +33,17 @@ class MVTecDataset(torch.utils.data.Dataset):
             ]
         )
         if is_train:
-            self.image_files = []
-            self.targets = []
-            for i, category in enumerate(mvtec_categories):
-              new_samples = glob(
-                os.path.join(root, category, "train", "good", "*.png")
-              )
-              self.image_files += new_samples
-              self.targets += [i] * len(new_samples)
+            self.image_files = glob(
+              os.path.join(root, mvtec_categories[category], "train", "good", "*.png")
+            )
+            self.targets += [0] * len(self.image_files)
+
+            # add redundant negative class
+            anomaly_samples = [image_file for image_file in 
+            glob(os.path.join(root, mvtec_categories[category_index], "test", "*", "*.png"))
+             if not os.path.dirname(image_file).endswith("good")]
+            self.image_files += anomaly_samples
+            self.targets += [1] * len(anomaly_samples)
         else:
             self.image_files = glob(os.path.join(root, mvtec_categories[category_index], "test", "*", "*.png"))
             self.target_transform = transforms.Compose(
@@ -49,6 +52,9 @@ class MVTecDataset(torch.utils.data.Dataset):
                     transforms.ToTensor(),
                 ]
             )
+            self.targets = []
+            for i, image_file in self.image_files:
+              if os.path.dirname(image_file).endswith("good")
         self.is_train = is_train
 
         # creating targets
