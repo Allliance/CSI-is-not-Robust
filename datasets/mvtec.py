@@ -25,7 +25,7 @@ mvtec_categories = [
 
 class MVTecDataset(torch.utils.data.Dataset):
   
-    def __init__(self, root,  category, input_size=224, is_train=True):
+    def __init__(self, root,  category_index, input_size=224, is_train=True):
         self.image_transform = transforms.Compose(
             [
                 transforms.Resize(input_size),
