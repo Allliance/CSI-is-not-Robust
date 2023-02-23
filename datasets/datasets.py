@@ -314,6 +314,7 @@ def get_superclass_list(dataset):
 
 
 def get_subclass_dataset(dataset, classes):
+
     if not isinstance(classes, list):
         classes = [classes]
 
@@ -327,7 +328,7 @@ def get_subclass_dataset(dataset, classes):
             if tgt in classes:
                 indices.append(idx)
 
-
+    print('hello', indices);
     dataset = Subset(dataset, indices)
     return dataset
 
