@@ -53,8 +53,8 @@ class MVTecDataset(torch.utils.data.Dataset):
                 ]
             )
             self.targets = []
-            for i, image_file in self.image_files:
-              if os.path.dirname(image_file).endswith("good")
+#             for i, image_file in self.image_files:
+#               if os.path.dirname(image_file).endswith("good")
         self.is_train = is_train
 
         # creating targets
