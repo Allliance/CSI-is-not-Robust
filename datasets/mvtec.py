@@ -25,7 +25,7 @@ mvtec_categories = [
 
 class MVTecDataset(torch.utils.data.Dataset):
   
-    def __init__(self, root,  category_index, input_size=224, is_train=True):
+    def __init__(self, root,  category, input_size=224, is_train=True):
         self.image_transform = transforms.Compose(
             [
                 transforms.Resize(input_size),
@@ -41,12 +41,12 @@ class MVTecDataset(torch.utils.data.Dataset):
 
             # add redundant negative class
             anomaly_samples = [image_file for image_file in 
-            glob(os.path.join(root, mvtec_categories[category_index], "train", "*", "*.png"))
+            glob(os.path.join(root, mvtec_categories[category], "train", "*", "*.png"))
              if not os.path.dirname(image_file).endswith("good")]
             self.image_files += anomaly_samples
             self.targets += [1] * len(anomaly_samples)
         else:
-            self.image_files = glob(os.path.join(root, mvtec_categories[category_index], "test", "*", "*.png"))
+            self.image_files = glob(os.path.join(root, mvtec_categories[category], "test", "*", "*.png"))
             self.target_transform = transforms.Compose(
                 [
                     transforms.Resize(input_size),
