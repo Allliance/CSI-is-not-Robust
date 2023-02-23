@@ -14,7 +14,7 @@ IMAGENET_PATH = os.path.join(os.path.expanduser('~'), 'data', "ImageNet")
 MNIST_SUPERCLASS = list(range(10))
 FMNIST_SUPERCLASS = list(range(10))
 SVHN_SUPERCLASS = list(range(10))
-MVTEC_SUPERCLASS = list(range(15))
+MVTEC_SUPERCLASS = list(range(2))
 CIFAR10_SUPERCLASS = list(range(10))  # one class
 IMAGENET_SUPERCLASS = list(range(30))  # one class
 
@@ -198,11 +198,13 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
         n_classes = 10
         train_set = MVTecDataset(
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
+            category=P.target_category,
             is_train=True,
         )
-        print(len(train_set))
+        
         test_set = MVTecDataset(
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
+            category=P.target_category,
             is_train=False,
         )
 

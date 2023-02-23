@@ -40,7 +40,7 @@ class MVTecDataset(torch.utils.data.Dataset):
 
             # add redundant negative class
             anomaly_samples = [image_file for image_file in 
-            glob(os.path.join(root, mvtec_categories[category_index], "test", "*", "*.png"))
+            glob(os.path.join(root, mvtec_categories[category_index], "train", "*", "*.png"))
              if not os.path.dirname(image_file).endswith("good")]
             self.image_files += anomaly_samples
             self.targets += [1] * len(anomaly_samples)
@@ -53,8 +53,8 @@ class MVTecDataset(torch.utils.data.Dataset):
                 ]
             )
             self.targets = []
-#             for i, image_file in self.image_files:
-#               if os.path.dirname(image_file).endswith("good")
+            for i, image_file in self.image_files:
+              self.targets.append(0 if os.path.dirname(image_file).endswith("good") else 1)
         self.is_train = is_train
 
         # creating targets
