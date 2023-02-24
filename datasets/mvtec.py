@@ -53,7 +53,7 @@ class MVTecDataset(torch.utils.data.Dataset):
                     transforms.ToTensor(),
                 ]
             )
-            for i, image_file in self.image_files:
+            for image_file in self.image_files:
               self.targets.append(0 if os.path.dirname(image_file).endswith("good") else 1)
         self.is_train = is_train
 
