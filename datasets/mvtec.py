@@ -25,13 +25,16 @@ mvtec_categories = [
 
 class MVTecDataset(torch.utils.data.Dataset):
   
-    def __init__(self, root,  category, input_size=224, is_train=True):
-        self.image_transform = transforms.Compose(
-            [
-                transforms.Resize(input_size),
-                transforms.ToTensor(),
-            ]
-        )
+    def __init__(self, root,  category, is_train=True, transform=None, input_size=224):
+        if transform:
+            self.image_transform = transform
+        else:
+            self.image_transform = transforms.Compose(
+                [
+                    transforms.Resize(input_size),
+                    transforms.ToTensor(),
+                ]
+            )
         self.targets = [];
         if is_train:
             self.image_files = glob(

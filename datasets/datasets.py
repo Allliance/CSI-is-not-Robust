@@ -195,11 +195,12 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
 
     elif dataset == 'mvtec-ad':
         image_size = (224, 224, 3)
-        n_classes = 10
+        n_classes = 2
         train_set = MVTecDataset(
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
             category=P.target_category,
             is_train=True,
+            transform=get_transform_imagenet()
         )
         
         test_set = MVTecDataset(
