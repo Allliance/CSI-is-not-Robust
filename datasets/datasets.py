@@ -200,14 +200,23 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
             category=P.target_category,
             is_train=True,
-            transform=train_transform
+            transform=transforms.Compose([
+            transforms.Resize(256),
+            transforms.RandomResizedCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+        ])
         )
         
         test_set = MVTecDataset(
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
             category=P.target_category,
             is_train=False,
-            transform=test_transform
+            transform=transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+        ])
         )
 
 
