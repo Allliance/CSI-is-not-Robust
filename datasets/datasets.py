@@ -194,6 +194,7 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
 
 
     elif dataset == 'mvtec-ad':
+        print(DATA_PATH)
         image_size = (224, 224, 3)
         n_classes = 10
         train_set = MVTecDataset(
