@@ -321,7 +321,6 @@ def get_subclass_dataset(dataset, classes):
     indices = []
     try:
         
-        print('hello', classes)
         for idx, tgt in enumerate(dataset.targets):
             if tgt in classes:
                 indices.append(idx)
@@ -329,6 +328,7 @@ def get_subclass_dataset(dataset, classes):
         for idx, tgt in enumerate(dataset.labels):
             if tgt in classes:
                 indices.append(idx)
+    print(indices)
 
     dataset = Subset(dataset, indices)
     return dataset
