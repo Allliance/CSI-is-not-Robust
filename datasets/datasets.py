@@ -150,7 +150,7 @@ def get_transform_imagenet():
 def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eval=False):
     download = True
     if dataset in ['imagenet', 'cub', 'stanford_dogs', 'flowers102',
-                   'places365', 'food_101', 'caltech_256', 'dtd', 'pets']:
+                   'places365', 'food_101', 'caltech_256', 'dtd', 'pets', 'mvtec-ad']:
         if eval:
             train_transform, test_transform = get_simclr_eval_transform_imagenet(P.ood_samples,
                                                                                  P.resize_factor, P.resize_fix)
@@ -200,13 +200,14 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
             category=P.target_category,
             is_train=True,
-            transform=get_transform_imagenet()
+            transform=train_transform
         )
         
         test_set = MVTecDataset(
             root=os.path.join(DATA_PATH, 'mvtec_anomaly_detection'),
             category=P.target_category,
             is_train=False,
+            transform=test_transform
         )
 
 
