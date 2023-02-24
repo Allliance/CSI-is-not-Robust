@@ -194,7 +194,6 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
 
 
     elif dataset == 'mvtec-ad':
-        print(DATA_PATH)
         image_size = (224, 224, 3)
         n_classes = 10
         train_set = MVTecDataset(
@@ -329,7 +328,6 @@ def get_subclass_dataset(dataset, classes):
         for idx, tgt in enumerate(dataset.labels):
             if tgt in classes:
                 indices.append(idx)
-    print(indices)
 
     dataset = Subset(dataset, indices)
     return dataset

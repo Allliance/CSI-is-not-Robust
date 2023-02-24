@@ -48,15 +48,11 @@ if P.one_class_idx is not None:
     cls_list = get_superclass_list(P.dataset)
     P.n_superclasses = len(cls_list)
 
-    print("len trainset before subclassing:", len(train_set))
-
     full_test_set = deepcopy(test_set)  # test set of full classes
     train_set = get_subclass_dataset(train_set, classes=cls_list[P.one_class_idx])
     test_set = get_subclass_dataset(test_set, classes=cls_list[P.one_class_idx])
 
     
-    print("len trainset after subclassing:", len(train_set))
-
 kwargs = {'pin_memory': False, 'num_workers': 4}
 
 if P.multi_gpu:
